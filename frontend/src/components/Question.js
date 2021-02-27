@@ -1,44 +1,57 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import React from 'react';
 import Button from './Button';
 import Card from './Card';
 import Option from './Option';
+import QuestionContext from '../context/question-context';
 
-const Question = ({
-  questions,
-  currentIndex,
-  questionCount,
-  onNext,
-  onSkip,
-  onBack
-}) => {
+const Question = () => {
+  const { questions, currentIndex, loading, nextQuestion, addQuestion } =
+    useContext(QuestionContext);
+
   const [selectedOption, setSelectedOption] = useState();
-  const current = questions[currentIndex];
+
+  if (loading) return <div>Loading... Please wait</div>;
+
+  const currentQuestion = questions[currentIndex];
+
+  const onNextHandler = () => {
+    addQuestion(selectedOption);
+    setSelectedOption(null);
+    nextQuestion();
+  };
+
+  const onSkipHandler = () => {};
+
+  const onBackHandler = () => {};
 
   const onRadioChangeHandler = (queId, e) => {
-    setSelectedOption({ queId, answer: e.target.value });
+    setSelectedOption({ index: currentIndex, queId, answer: e.target.value });
   };
 
   return (
     <Card>
       <div className="absolute left-0 top-0 p-3 text-sm text-gray-500">
-        {questionCount + 1}/10
+        {currentIndex + 1}/10
       </div>
       <div>
         <h1 className="text-2xl font-bold text-slate-900">
-          {current.question}
+          {currentQuestion.question}
         </h1>
 
         {/* Options */}
         <div className="px-2 flex flex-col gap-1 py-4">
-          {current.options.map((option, index) => {
+          {currentQuestion.options.map((option, index) => {
             return (
               <Option
                 option={option}
                 index={index}
-                key={`${current._id}${index}`}
-                onRadioChange={onRadioChangeHandler.bind(null, current._id)}
-                queId={current._id}
+                key={`${currentQuestion._id}${index}`}
+                onRadioChange={onRadioChangeHandler.bind(
+                  null,
+                  currentQuestion._id
+                )}
+                queId={currentQuestion._id}
               />
             );
           })}
@@ -49,20 +62,17 @@ const Question = ({
             btnText={'Next'}
             classNames="min-w-max px-5 py-2"
             disabled={selectedOption ? false : true}
-            onClick={() => {
-              onNext(selectedOption);
-              setSelectedOption(null);
-            }}
+            onClick={onNextHandler}
           />
           <Button
             btnText="Skip this Question"
             classNames="min-w-max px-3 py-2"
-            onClick={onSkip}
+            onClick={onSkipHandler}
           />
           <Button
             btnText="Back"
             classNames="min-w-max px-5 py-2"
-            onClick={onBack}
+            onClick={onBackHandler}
           />
         </div>
       </div>

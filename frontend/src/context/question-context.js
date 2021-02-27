@@ -1,9 +1,11 @@
 import React from 'react';
 
 const QuestionContext = React.createContext({
-  userQuestions: [],
+  userQuestions: {},
   currentIndex: 0,
-  questions: []
+  questions: [],
+  loading: true,
+  addQuestion: () => {}
 });
 
 export default QuestionContext;
