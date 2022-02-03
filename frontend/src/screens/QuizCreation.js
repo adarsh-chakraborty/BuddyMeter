@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import DetailsForm from '../components/DetailsForm';
+import Question from '../components/Question';
 
-const GetStarted = () => {
-  const nameHandler = (e) => {
+const QuizCreation = () => {
+  const [name, setName] = useState('');
+  const nameHandler = (e, usrName) => {
     e.preventDefault();
+    setName(name);
   };
 
   return (
     <Container className="pt-4 w-50">
-      <h3>Getting Started..</h3>
-      <DetailsForm
+      <h3>Create Quiz</h3>
+      {/* <DetailsForm
         title="Enter your name"
         btnText="Next"
         btnType="submit"
@@ -18,9 +21,10 @@ const GetStarted = () => {
         controlType="text"
         placeholder="Your Name"
         onClickHandler={nameHandler}
-      />
+      /> */}
+      <Question />
     </Container>
   );
 };
 
-export default GetStarted;
+export default QuizCreation;
