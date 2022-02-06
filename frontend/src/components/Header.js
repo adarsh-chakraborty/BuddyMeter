@@ -2,9 +2,9 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <header className="h-9 flex justify-between bg-[#365958]">
+    <header className="h-fit p-2 flex justify-around bg-[#364958] text-gray-100 text-lg shadow-md">
       <div>
-        <span>Buddy Meter</span>
+        <span className="px-4">Buddy Meter</span>
       </div>
       <ul className="flex gap-4 mx-4">
         <li>Home</li>
