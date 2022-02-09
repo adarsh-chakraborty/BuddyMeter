@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header';
+import CreateQuiz from './screens/CreateQuiz';
 import HomeScreen from './screens/HomeScreen';
 
 function App() {
@@ -8,7 +9,10 @@ function App() {
     <div className="min-h-screen bg-gray-100">
       <Header />
       <main>
-        <HomeScreen />
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/create-quiz" element={<CreateQuiz />} />
+        </Routes>
       </main>
     </div>
   );
