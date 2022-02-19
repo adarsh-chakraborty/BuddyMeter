@@ -22,17 +22,9 @@ const Question = ({ question: current, onNext, onSkip, index }) => {
         </h1>
 
         {/* Options */}
-        <div className="px-2 flex flex-col gap-1">
+        <div className="px-2 flex flex-col gap-1 py-4">
           {current.options.map((option, index) => {
-            return (
-              <Option
-                key={index}
-                option={option}
-                onSelect={onSelectHandler}
-                isSelected={selectedIndex === index}
-                index={index}
-              />
-            );
+            return <Option option={option} index={index} key={index} />;
           })}
         </div>
 
