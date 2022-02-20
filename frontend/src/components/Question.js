@@ -5,10 +5,10 @@ import Card from './Card';
 import Option from './Option';
 
 const Question = ({ question: current, onNext, onSkip, index }) => {
-  const [selectedIndex, setSelectedIndex] = useState();
+  const [selectedQuestion, setSelectedQuestion] = useState();
 
-  const onSelectHandler = (x) => {
-    setSelectedIndex(x);
+  const onRadioChangeHandler = (queId, e) => {
+    setSelectedQuestion({ queId, answer: e.target.value });
   };
 
   return (
@@ -24,12 +24,28 @@ const Question = ({ question: current, onNext, onSkip, index }) => {
         {/* Options */}
         <div className="px-2 flex flex-col gap-1 py-4">
           {current.options.map((option, index) => {
-            return <Option option={option} index={index} key={index} />;
+            return (
+              <Option
+                option={option}
+                index={index}
+                key={index}
+                onRadioChange={onRadioChangeHandler.bind(null, current._id)}
+                queId={current._id}
+                checked={false}
+              />
+            );
           })}
         </div>
 
         <div className="flex gap-2">
-          <Button btnText={'Next'} classNames="min-w-max px-5 py-2" />
+          <Button
+            btnText={'Next'}
+            classNames="min-w-max px-5 py-2"
+            disabled={selectedQuestion ? false : true}
+            onClick={() => {
+              onNext(selectedQuestion);
+            }}
+          />
           <Button
             btnText="Skip this Question"
             classNames="min-w-max px-3 py-2"

@@ -1,12 +1,20 @@
+import { useState } from 'react';
 import classes from './Option.module.css';
 
-const Option = ({ option, isSelected, onSelect, index }) => {
+const Option = ({ option, onRadioChange, queId }) => {
   return (
     <div>
       <label
         className={`${classes.optionParent} cursor-pointer flex items-center`}
+        id={queId}
       >
-        <input type="radio" value={option} name="que" className="hidden" />
+        <input
+          type="radio"
+          value={option}
+          name={queId}
+          className=""
+          onChange={onRadioChange}
+        />
         <span
           className={`w-4 h-4 inline-block mr-1 border border-gray-400 transition duration-200 ${classes.box}`}
         ></span>

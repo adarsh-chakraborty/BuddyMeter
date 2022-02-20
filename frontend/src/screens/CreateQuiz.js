@@ -7,9 +7,17 @@ import Question from '../components/Question';
 const CreateQuiz = () => {
   const [questions, setQuestions] = useState(questionsJSON);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const userQuestions = [];
+  const [userQuestions, setUserQuestions] = useState([]);
 
-  const nextHandler = () => {};
+  const nextHandler = (selectedQuestion) => {
+    setUserQuestions((prevQuestions) => {
+      let newQuestions = [...prevQuestions];
+      newQuestions.push(selectedQuestion);
+      return newQuestions;
+    });
+
+    setCurrentQuestion((currentQuestion) => ++currentQuestion);
+  };
 
   const skipHandler = () => {};
 
