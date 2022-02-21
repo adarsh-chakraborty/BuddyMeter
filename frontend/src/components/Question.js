@@ -8,6 +8,7 @@ const Question = ({ question: current, onNext, onSkip, index }) => {
   const [selectedQuestion, setSelectedQuestion] = useState();
 
   const onRadioChangeHandler = (queId, e) => {
+    console.log(queId, e);
     setSelectedQuestion({ queId, answer: e.target.value });
   };
 
@@ -28,10 +29,9 @@ const Question = ({ question: current, onNext, onSkip, index }) => {
               <Option
                 option={option}
                 index={index}
-                key={index}
+                key={`${current._id}${index}`}
                 onRadioChange={onRadioChangeHandler.bind(null, current._id)}
                 queId={current._id}
-                checked={false}
               />
             );
           })}

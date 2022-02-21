@@ -18,5 +18,25 @@
       "Naruto",
       "Demon Slayer"
     ]
+  },
+  {
+    "question": "What is your favorite food?",
+    "_id": "12345xsss",
+    "options": ["Noodles", "Fried Chicken", "Biryani", "South Indian"]
+  },
+  {
+    "question": "Which one is your favorite destination to go?",
+    "_id": "123x45",
+    "options": ["Manali", "Goa", "Sri Lanka", "Kerela"]
+  },
+  {
+    "question": "Favourite movie??",
+    "_id": "123xd45",
+    "options": [
+      "Iron-man",
+      "Infinity War",
+      "Endgame",
+      "Shang chi and the legends of the 10 rings"
+    ]
   }
 ]

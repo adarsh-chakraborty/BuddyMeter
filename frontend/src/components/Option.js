@@ -12,8 +12,9 @@ const Option = ({ option, onRadioChange, queId }) => {
           type="radio"
           value={option}
           name={queId}
-          className=""
+          className="hidden"
           onChange={onRadioChange}
+          id={`${queId}${option}`}
         />
         <span
           className={`w-4 h-4 inline-block mr-1 border border-gray-400 transition duration-200 ${classes.box}`}
