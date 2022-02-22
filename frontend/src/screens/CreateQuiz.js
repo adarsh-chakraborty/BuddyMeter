@@ -6,32 +6,36 @@ import Question from '../components/Question';
 
 const CreateQuiz = () => {
   const [questions, setQuestions] = useState(questionsJSON);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [userQuestions, setUserQuestions] = useState([]);
 
   const nextHandler = (selectedQuestion) => {
     setUserQuestions((prevQuestions) => {
       let newQuestions = [...prevQuestions];
-      newQuestions.push(selectedQuestion);
+      newQuestions[questionIndex] = selectedQuestion;
       return newQuestions;
     });
 
-    setCurrentQuestion((currentQuestion) => ++currentQuestion);
+    setQuestionIndex((questionIndex) => ++questionIndex);
   };
 
-  const skipHandler = () => {};
+  const skipHandler = () => {
+    setQuestionIndex((queIndex) => ++queIndex);
+  };
 
-  const backHandler = () => {};
+  const backHandler = () => {
+    setQuestionIndex((queIndex) => --queIndex);
+  };
 
-  console.log(questions);
   return (
     <Container>
       <Question
-        question={questions[currentQuestion]}
+        questions={questions}
+        currentIndex={questionIndex}
         onNext={nextHandler}
         onSkip={skipHandler}
         onBack={backHandler}
-        index={currentQuestion}
+        questionCount={userQuestions.length}
       />
     </Container>
   );

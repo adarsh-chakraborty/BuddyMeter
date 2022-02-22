@@ -4,18 +4,25 @@ import Button from './Button';
 import Card from './Card';
 import Option from './Option';
 
-const Question = ({ question: current, onNext, onSkip, index }) => {
-  const [selectedQuestion, setSelectedQuestion] = useState();
+const Question = ({
+  questions,
+  currentIndex,
+  questionCount,
+  onNext,
+  onSkip,
+  onBack
+}) => {
+  const [selectedOption, setSelectedOption] = useState();
+  const current = questions[currentIndex];
 
   const onRadioChangeHandler = (queId, e) => {
-    console.log(queId, e);
-    setSelectedQuestion({ queId, answer: e.target.value });
+    setSelectedOption({ queId, answer: e.target.value });
   };
 
   return (
     <Card>
       <div className="absolute left-0 top-0 p-3 text-sm text-gray-500">
-        {index + 1}/10
+        {questionCount + 1}/10
       </div>
       <div>
         <h1 className="text-2xl font-bold text-slate-900">
@@ -41,16 +48,22 @@ const Question = ({ question: current, onNext, onSkip, index }) => {
           <Button
             btnText={'Next'}
             classNames="min-w-max px-5 py-2"
-            disabled={selectedQuestion ? false : true}
+            disabled={selectedOption ? false : true}
             onClick={() => {
-              onNext(selectedQuestion);
+              onNext(selectedOption);
+              setSelectedOption(null);
             }}
           />
           <Button
             btnText="Skip this Question"
             classNames="min-w-max px-3 py-2"
+            onClick={onSkip}
           />
-          <Button btnText="Back" classNames="min-w-max px-5 py-2" />
+          <Button
+            btnText="Back"
+            classNames="min-w-max px-5 py-2"
+            onClick={onBack}
+          />
         </div>
       </div>
     </Card>
