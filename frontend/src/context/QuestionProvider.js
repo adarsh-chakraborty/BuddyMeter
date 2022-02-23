@@ -1,22 +1,18 @@
 import QuestionContext from './question-context';
 import { useReducer, useEffect } from 'react';
-import questions from '../questions.json';
 import { FETCH_QUESTIONS } from './constants';
 
 const defaultState = {
   userQuestions: [],
   currentIndex: 0,
-  questions: []
+  questions: [],
+  loading: true
 };
 
 const questionReducer = (state, action) => {
-  console.log(state, action.type);
   switch (action.type) {
     case FETCH_QUESTIONS: {
-      return {
-        ...state,
-        questions: questions
-      };
+      return { ...state, questions: [...action.payload], loading: false };
     }
     default:
       return state;
@@ -30,15 +26,30 @@ const QuestionProvider = (props) => {
   );
 
   useEffect(() => {
-    console.log('App Initialized');
-    stateActionDispatch({ type: FETCH_QUESTIONS });
+    // fetch the questions and send the dispatch
+    const fetchQuestions = async () => {
+      try {
+        const res = await fetch('/api/questions');
+
+        if (res.ok) {
+          const questions = await res.json();
+
+          stateActionDispatch({ type: FETCH_QUESTIONS, payload: questions });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchQuestions();
   }, []);
 
   const questionContext = {
-    // add variables and functions here
+    // add variables and function pointers here
     userQuestions: state.userQuestions,
     questions: state.questions,
-    currentIndex: state.currentIndex
+    currentIndex: state.currentIndex,
+    loading: state.loading
   };
 
   return (

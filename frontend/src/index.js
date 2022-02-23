@@ -7,11 +7,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import QuestionProvider from './context/QuestionProvider';
 
 ReactDOM.render(
-  <Router>
-    <QuestionProvider>
-      <App />
-    </QuestionProvider>
-  </Router>,
+  <React.StrictMode>
+    <Router>
+      <QuestionProvider>
+        <App />
+      </QuestionProvider>
+    </Router>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
