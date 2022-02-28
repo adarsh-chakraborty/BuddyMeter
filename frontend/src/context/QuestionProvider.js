@@ -1,6 +1,11 @@
 import QuestionContext from './question-context';
 import { useReducer, useEffect } from 'react';
-import { ADD_QUESTION, NEXT_PAGE, FETCH_QUESTIONS } from './constants';
+import {
+  ADD_QUESTION,
+  NEXT_PAGE,
+  PREV_PAGE,
+  FETCH_QUESTIONS
+} from './constants';
 
 const defaultState = {
   userQuestions: {},
@@ -8,7 +13,8 @@ const defaultState = {
   questions: [],
   loading: true,
   addQuestion: () => {},
-  nextQuestion: () => {}
+  nextQuestion: () => {},
+  prevQuestion: () => {}
 };
 
 const questionReducer = (state, action) => {
@@ -24,6 +30,10 @@ const questionReducer = (state, action) => {
 
     case NEXT_PAGE: {
       return { ...state, currentIndex: state.currentIndex + 1 };
+    }
+
+    case PREV_PAGE: {
+      return { ...state, currentIndex: state.currentIndex - 1 };
     }
     default:
       return state;
@@ -62,6 +72,10 @@ const QuestionProvider = (props) => {
   const nextQuestion = () => {
     stateActionDispatch({ type: NEXT_PAGE });
   };
+
+  const prevQuestion = () => {
+    stateActionDispatch({ type: PREV_PAGE });
+  };
   const questionContext = {
     // add variables and function pointers here
     userQuestions: state.userQuestions,
@@ -69,7 +83,8 @@ const QuestionProvider = (props) => {
     currentIndex: state.currentIndex,
     loading: state.loading,
     addQuestion,
-    nextQuestion
+    nextQuestion,
+    prevQuestion
   };
 
   return (

@@ -6,8 +6,15 @@ import Option from './Option';
 import QuestionContext from '../context/question-context';
 
 const Question = () => {
-  const { questions, currentIndex, loading, nextQuestion, addQuestion } =
-    useContext(QuestionContext);
+  const {
+    questions,
+    currentIndex,
+    loading,
+    nextQuestion,
+    prevQuestion,
+    addQuestion,
+    userQuestions
+  } = useContext(QuestionContext);
 
   const [selectedOption, setSelectedOption] = useState();
 
@@ -23,11 +30,16 @@ const Question = () => {
 
   const onSkipHandler = () => {};
 
-  const onBackHandler = () => {};
-
-  const onRadioChangeHandler = (queId, e) => {
-    setSelectedOption({ index: currentIndex, queId, answer: e.target.value });
+  const onBackHandler = () => {
+    prevQuestion();
   };
+
+  const onRadioChangeHandler = (queId, value) => {
+    setSelectedOption({ index: currentIndex, queId, answer: value });
+  };
+
+  const checked =
+    userQuestions[currentIndex]?.queId === currentQuestion?._id ? true : false;
 
   return (
     <Card>
@@ -52,6 +64,11 @@ const Question = () => {
                   currentQuestion._id
                 )}
                 queId={currentQuestion._id}
+                checked={
+                  checked && userQuestions[currentIndex].answer === option
+                    ? true
+                    : false
+                }
               />
             );
           })}
@@ -73,6 +90,7 @@ const Question = () => {
             btnText="Back"
             classNames="min-w-max px-5 py-2"
             onClick={onBackHandler}
+            disabled={currentIndex === 0}
           />
         </div>
       </div>

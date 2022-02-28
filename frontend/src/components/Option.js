@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import classes from './Option.module.css';
 
-const Option = ({ option, onRadioChange, queId }) => {
+const Option = ({ option, onRadioChange, queId, checked }) => {
+  const [isChecked, setIsChecked] = useState(checked);
+
+  const radioChangeHandler = (e) => {
+    setIsChecked(true);
+    onRadioChange(e.target.value);
+  };
+
   return (
     <div>
       <label
@@ -12,9 +19,10 @@ const Option = ({ option, onRadioChange, queId }) => {
           type="radio"
           value={option}
           name={queId}
-          className="hidden"
-          onChange={onRadioChange}
+          className=""
+          onChange={radioChangeHandler}
           id={`${queId}${option}`}
+          checked={isChecked}
         />
         <span
           className={`w-4 h-4 inline-block mr-1 border border-gray-400 transition duration-200 ${classes.box}`}
