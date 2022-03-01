@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import React from 'react';
 import Button from './Button';
 import Card from './Card';
@@ -16,15 +16,27 @@ const Question = () => {
     userQuestions
   } = useContext(QuestionContext);
 
-  const [selectedOption, setSelectedOption] = useState();
+  const [selectedQuestion, setSelectedQuestion] = useState();
+
+  const [selectedOption, setSelectedOption] = useState(
+    userQuestions[currentIndex]?.answer
+  );
+
+  useEffect(() => {
+    if (userQuestions[currentIndex]?.answer) {
+      setSelectedOption(userQuestions[currentIndex].answer);
+    }
+  }, [selectedOption, currentIndex, userQuestions]);
 
   if (loading) return <div>Loading... Please wait</div>;
 
   const currentQuestion = questions[currentIndex];
 
   const onNextHandler = () => {
-    addQuestion(selectedOption);
-    setSelectedOption(null);
+    if (selectedQuestion) {
+      addQuestion(selectedQuestion);
+    }
+    setSelectedQuestion(null);
     nextQuestion();
   };
 
@@ -35,11 +47,9 @@ const Question = () => {
   };
 
   const onRadioChangeHandler = (queId, value) => {
-    setSelectedOption({ index: currentIndex, queId, answer: value });
+    setSelectedOption(value);
+    setSelectedQuestion({ index: currentIndex, queId, answer: value });
   };
-
-  const checked =
-    userQuestions[currentIndex]?.queId === currentQuestion?._id ? true : false;
 
   return (
     <Card>
@@ -64,11 +74,7 @@ const Question = () => {
                   currentQuestion._id
                 )}
                 queId={currentQuestion._id}
-                checked={
-                  checked && userQuestions[currentIndex].answer === option
-                    ? true
-                    : false
-                }
+                checked={selectedOption === option ? true : false}
               />
             );
           })}
