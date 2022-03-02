@@ -1,11 +1,6 @@
-import { useState } from 'react';
 import classes from './Option.module.css';
 
 const Option = ({ option, onRadioChange, queId, checked }) => {
-  const radioChangeHandler = (e) => {
-    onRadioChange(e.target.value);
-  };
-
   return (
     <div>
       <label
@@ -17,7 +12,9 @@ const Option = ({ option, onRadioChange, queId, checked }) => {
           value={option}
           name={queId}
           className=""
-          onChange={radioChangeHandler}
+          onChange={(e) => {
+            onRadioChange(queId, e.target.value);
+          }}
           id={`${queId}${option}`}
           checked={checked}
         />

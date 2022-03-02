@@ -16,11 +16,12 @@ const Question = () => {
     userQuestions
   } = useContext(QuestionContext);
 
-  const [selectedQuestion, setSelectedQuestion] = useState();
+  const currentQuestion = questions[currentIndex];
 
-  const [selectedOption, setSelectedOption] = useState(
-    userQuestions[currentIndex]?.answer
-  );
+  const [selectedOption, setSelectedOption] = useState({
+    queId: currentQuestion?._id ?? null,
+    answer: null
+  });
 
   useEffect(() => {
     if (userQuestions[currentIndex]?.answer) {
@@ -30,13 +31,9 @@ const Question = () => {
 
   if (loading) return <div>Loading... Please wait</div>;
 
-  const currentQuestion = questions[currentIndex];
-
   const onNextHandler = () => {
-    if (selectedQuestion) {
-      addQuestion(selectedQuestion);
-    }
-    setSelectedQuestion(null);
+    addQuestion({ ...selectedOption, index: currentIndex });
+
     nextQuestion();
   };
 
@@ -46,10 +43,12 @@ const Question = () => {
     prevQuestion();
   };
 
-  const onRadioChangeHandler = (queId, value) => {
-    setSelectedOption(value);
-    setSelectedQuestion({ index: currentIndex, queId, answer: value });
+  const handleRadioClick = (queId, answer) => {
+    setSelectedOption({ queId, answer });
+    // setSelectedQuestion({ index: currentIndex, queId, answer: value });
   };
+
+  const isRadioSelected = (value) => selectedOption.answer === value;
 
   return (
     <Card>
@@ -61,7 +60,6 @@ const Question = () => {
           {currentQuestion.question}
         </h1>
 
-        {/* Options */}
         <div className="px-2 flex flex-col gap-1 py-4">
           {currentQuestion.options.map((option, index) => {
             return (
@@ -69,12 +67,9 @@ const Question = () => {
                 option={option}
                 index={index}
                 key={`${currentQuestion._id}${index}`}
-                onRadioChange={onRadioChangeHandler.bind(
-                  null,
-                  currentQuestion._id
-                )}
+                onRadioChange={handleRadioClick}
                 queId={currentQuestion._id}
-                checked={selectedOption === option ? true : false}
+                checked={isRadioSelected(option)}
               />
             );
           })}
