@@ -1,53 +1,17 @@
-import { useState, useContext, useEffect } from 'react';
 import React from 'react';
 import Button from './Button';
 import Card from './Card';
 import Option from './Option';
-import QuestionContext from '../context/question-context';
 
-const Question = () => {
-  const {
-    questions,
-    currentIndex,
-    loading,
-    nextQuestion,
-    prevQuestion,
-    addQuestion,
-    userQuestions
-  } = useContext(QuestionContext);
-
-  const currentQuestion = questions[currentIndex];
-
-  const [selectedOption, setSelectedOption] = useState({
-    queId: currentQuestion?._id ?? null,
-    answer: null
-  });
-
-  useEffect(() => {
-    if (userQuestions[currentIndex]?.answer) {
-      setSelectedOption(userQuestions[currentIndex].answer);
-    }
-  }, [selectedOption, currentIndex, userQuestions]);
-
-  if (loading) return <div>Loading... Please wait</div>;
-
-  const onNextHandler = () => {
-    addQuestion({ ...selectedOption, index: currentIndex });
-
-    nextQuestion();
-  };
-
-  const onSkipHandler = () => {};
-
-  const onBackHandler = () => {
-    prevQuestion();
-  };
-
-  const handleRadioClick = (queId, answer) => {
-    setSelectedOption({ queId, answer });
-    // setSelectedQuestion({ index: currentIndex, queId, answer: value });
-  };
-
+const Question = ({
+  currentIndex,
+  currentQuestion,
+  selectedOption,
+  onNext,
+  onSkip,
+  onBack,
+  onRadioChange
+}) => {
   const isRadioSelected = (value) => selectedOption.answer === value;
 
   return (
@@ -67,7 +31,7 @@ const Question = () => {
                 option={option}
                 index={index}
                 key={`${currentQuestion._id}${index}`}
-                onRadioChange={handleRadioClick}
+                onRadioChange={onRadioChange}
                 queId={currentQuestion._id}
                 checked={isRadioSelected(option)}
               />
@@ -79,18 +43,18 @@ const Question = () => {
           <Button
             btnText={'Next'}
             classNames="min-w-max px-5 py-2"
-            disabled={selectedOption ? false : true}
-            onClick={onNextHandler}
+            // disabled={selectedOption ? false : true}
+            onClick={onNext}
           />
           <Button
             btnText="Skip this Question"
             classNames="min-w-max px-3 py-2"
-            onClick={onSkipHandler}
+            onClick={onSkip}
           />
           <Button
             btnText="Back"
             classNames="min-w-max px-5 py-2"
-            onClick={onBackHandler}
+            onClick={onBack}
             disabled={currentIndex === 0}
           />
         </div>
