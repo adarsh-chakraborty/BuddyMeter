@@ -3,6 +3,7 @@ import Container from '../components/Container';
 import Question from '../components/Question';
 import { useState, useEffect, useContext } from 'react';
 import QuestionContext from '../context/question-context';
+import { useNavigate } from 'react-router-dom';
 
 const CreateQuiz = () => {
   const {
@@ -12,7 +13,8 @@ const CreateQuiz = () => {
     nextQuestion,
     prevQuestion,
     addQuestion,
-    userQuestions
+    userQuestions,
+    skipQuestion
   } = useContext(QuestionContext);
 
   const currentQuestion = questions[currentIndex];
@@ -21,6 +23,8 @@ const CreateQuiz = () => {
     queId: currentQuestion?._id ?? null,
     answer: null
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userQuestions[currentIndex]) {
@@ -34,10 +38,17 @@ const CreateQuiz = () => {
   const onNextHandler = () => {
     addQuestion({ ...selectedOption, index: currentIndex });
 
+    if (currentIndex === 9) {
+      return navigate('/finish');
+    }
     nextQuestion();
+    setSelectedOption({ queId: null, answer: null });
   };
 
-  const onSkipHandler = () => {};
+  const onSkipHandler = (queId) => {
+    console.log('Skipping', queId);
+    skipQuestion(queId);
+  };
 
   const onBackHandler = () => {
     prevQuestion();

@@ -1,10 +1,15 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Header from './components/Header';
 import CreateQuiz from './screens/CreateQuiz';
 import HomeScreen from './screens/HomeScreen';
+import QuestionContext from './context/question-context';
+import { useContext } from 'react';
+import Finish from './screens/Finish';
 
 function App() {
+  const { userQuestions } = useContext(QuestionContext);
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
@@ -12,6 +17,16 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/create-quiz" element={<CreateQuiz />} />
+          <Route
+            path="/finish"
+            element={
+              userQuestions.length === 9 ? (
+                <Finish />
+              ) : (
+                <Navigate to="/create-quiz" />
+              )
+            }
+          />
         </Routes>
       </main>
     </div>

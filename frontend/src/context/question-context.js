@@ -9,7 +9,8 @@ const QuestionContext = React.createContext({
   loading: true,
   addQuestion: () => {},
   nextQuestion: () => {},
-  prevQuestion: () => {}
+  prevQuestion: () => {},
+  skipQuestion: () => {}
 });
 
 export default QuestionContext;

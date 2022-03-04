@@ -4,7 +4,8 @@ import {
   ADD_QUESTION,
   NEXT_PAGE,
   PREV_PAGE,
-  FETCH_QUESTIONS
+  FETCH_QUESTIONS,
+  SKIP_QUESTION
 } from './constants';
 
 const defaultState = {
@@ -14,7 +15,8 @@ const defaultState = {
   loading: true,
   addQuestion: () => {},
   nextQuestion: () => {},
-  prevQuestion: () => {}
+  prevQuestion: () => {},
+  skipQuestion: () => {}
 };
 
 const questionReducer = (state, action) => {
@@ -26,6 +28,13 @@ const questionReducer = (state, action) => {
     case ADD_QUESTION: {
       state.userQuestions[action.payload.index] = action.payload;
       return { ...state };
+    }
+
+    case SKIP_QUESTION: {
+      const filteredQuestions = state.questions.filter(
+        (que) => que._id !== action.payload
+      );
+      return { ...state, questions: [...filteredQuestions] };
     }
 
     case NEXT_PAGE: {
@@ -69,6 +78,10 @@ const QuestionProvider = (props) => {
     stateActionDispatch({ type: ADD_QUESTION, payload });
   };
 
+  const skipQuestion = (payload) => {
+    stateActionDispatch({ type: SKIP_QUESTION, payload });
+  };
+
   const nextQuestion = () => {
     stateActionDispatch({ type: NEXT_PAGE });
   };
@@ -76,6 +89,7 @@ const QuestionProvider = (props) => {
   const prevQuestion = () => {
     stateActionDispatch({ type: PREV_PAGE });
   };
+
   const questionContext = {
     // add variables and function pointers here
     userQuestions: state.userQuestions,
@@ -84,7 +98,8 @@ const QuestionProvider = (props) => {
     loading: state.loading,
     addQuestion,
     nextQuestion,
-    prevQuestion
+    prevQuestion,
+    skipQuestion
   };
 
   return (

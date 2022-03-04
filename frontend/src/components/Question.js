@@ -43,13 +43,13 @@ const Question = ({
           <Button
             btnText={'Next'}
             classNames="min-w-max px-5 py-2"
-            // disabled={selectedOption ? false : true}
+            disabled={selectedOption.answer ? false : true}
             onClick={onNext}
           />
           <Button
             btnText="Skip this Question"
             classNames="min-w-max px-3 py-2"
-            onClick={onSkip}
+            onClick={onSkip.bind(null, currentQuestion._id)}
           />
           <Button
             btnText="Back"
