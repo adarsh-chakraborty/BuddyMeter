@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import Finish from './screens/Finish';
 
 function App() {
-  const { userQuestions } = useContext(QuestionContext);
+  const { currentIndex } = useContext(QuestionContext);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -20,11 +20,7 @@ function App() {
           <Route
             path="/finish"
             element={
-              userQuestions.length === 9 ? (
-                <Finish />
-              ) : (
-                <Navigate to="/create-quiz" />
-              )
+              currentIndex === 9 ? <Finish /> : <Navigate to="/create-quiz" />
             }
           />
         </Routes>
