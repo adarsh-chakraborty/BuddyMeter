@@ -22,8 +22,8 @@ const Question = ({
       <div className="absolute left-0 top-0 p-3 text-sm text-gray-500">
         {currentIndex + 1}/10
       </div>
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">
+      <div className="ml-6 mt-4">
+        <h1 className="md:text-2xl font-bold text-slate-900">
           {currentQuestion.question}
         </h1>
 

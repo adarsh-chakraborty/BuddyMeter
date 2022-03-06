@@ -11,7 +11,7 @@ const Option = ({ option, onRadioChange, queId, checked }) => {
           type="radio"
           value={option}
           name={queId}
-          className=""
+          className="hidden"
           onChange={(e) => {
             onRadioChange(queId, e.target.value);
           }}
