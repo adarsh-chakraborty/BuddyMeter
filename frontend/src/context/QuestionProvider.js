@@ -5,7 +5,8 @@ import {
   NEXT_PAGE,
   PREV_PAGE,
   FETCH_QUESTIONS,
-  SKIP_QUESTION
+  SKIP_QUESTION,
+  SET_NAME
 } from './constants';
 
 const defaultState = {
@@ -14,10 +15,12 @@ const defaultState = {
   questions: [],
   loading: true,
   skipLimit: 0,
+  userName: '',
   addQuestion: () => {},
   nextQuestion: () => {},
   prevQuestion: () => {},
-  skipQuestion: () => {}
+  skipQuestion: () => {},
+  setName: () => {}
 };
 
 const questionReducer = (state, action) => {
@@ -48,6 +51,10 @@ const questionReducer = (state, action) => {
 
     case PREV_PAGE: {
       return { ...state, currentIndex: state.currentIndex - 1 };
+    }
+
+    case SET_NAME: {
+      return { ...state, userName: action.payload };
     }
     default:
       return state;
@@ -95,6 +102,10 @@ const QuestionProvider = (props) => {
     stateActionDispatch({ type: PREV_PAGE });
   };
 
+  const setName = (payload) => {
+    stateActionDispatch({ type: SET_NAME, payload });
+  };
+
   const questionContext = {
     // add variables and function pointers here
     userQuestions: state.userQuestions,
@@ -102,10 +113,12 @@ const QuestionProvider = (props) => {
     currentIndex: state.currentIndex,
     loading: state.loading,
     skipLimit: state.skipLimit,
+    userName: state.userName,
     addQuestion,
     nextQuestion,
     prevQuestion,
-    skipQuestion
+    skipQuestion,
+    setName
   };
 
   return (

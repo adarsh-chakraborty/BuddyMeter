@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import Finish from './screens/Finish';
 
 function App() {
-  const { currentIndex } = useContext(QuestionContext);
+  const { currentIndex, userName } = useContext(QuestionContext);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -16,7 +16,10 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomeScreen />} />
-          <Route path="/create-quiz" element={<CreateQuiz />} />
+          <Route
+            path="/create-quiz"
+            element={userName.trim() === '' ? <HomeScreen /> : <CreateQuiz />}
+          />
           <Route
             path="/finish"
             element={

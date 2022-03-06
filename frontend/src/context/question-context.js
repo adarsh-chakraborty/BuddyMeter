@@ -8,10 +8,12 @@ const QuestionContext = React.createContext({
   questions: [],
   loading: true,
   skipLimit: 0,
+  userName: '',
   addQuestion: () => {},
   nextQuestion: () => {},
   prevQuestion: () => {},
-  skipQuestion: () => {}
+  skipQuestion: () => {},
+  setName: () => {}
 });
 
 export default QuestionContext;

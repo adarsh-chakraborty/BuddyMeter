@@ -6,7 +6,7 @@ const questionSchema = mongoose.Schema({
     required: true
   },
   options: {
-    type: Array,
+    type: [],
     required: true
   }
 });
