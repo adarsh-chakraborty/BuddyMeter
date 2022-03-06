@@ -9,7 +9,6 @@ const Finish = () => {
 
   useEffect(() => {
     const postQuiz = async () => {
-      console.log('Posting', ctx.userQuestions);
       const response = await axios.post('/api/questions', ctx.userQuestions, {
         headers: { 'Content-Type': 'application/json' }
       });
