@@ -14,7 +14,8 @@ const CreateQuiz = () => {
     prevQuestion,
     addQuestion,
     userQuestions,
-    skipQuestion
+    skipQuestion,
+    skipLimit
   } = useContext(QuestionContext);
 
   const currentQuestion = questions[currentIndex];
@@ -69,6 +70,7 @@ const CreateQuiz = () => {
         onBack={onBackHandler}
         onRadioChange={onRadioChange}
         selectedOption={selectedOption}
+        skipLimit={skipLimit}
       />
     </Container>
   );

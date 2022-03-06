@@ -7,6 +7,7 @@ const QuestionContext = React.createContext({
   currentIndex: 0,
   questions: [],
   loading: true,
+  skipLimit: 0,
   addQuestion: () => {},
   nextQuestion: () => {},
   prevQuestion: () => {},

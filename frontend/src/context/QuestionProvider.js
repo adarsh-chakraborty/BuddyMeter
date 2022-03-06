@@ -13,6 +13,7 @@ const defaultState = {
   currentIndex: 0,
   questions: [],
   loading: true,
+  skipLimit: 0,
   addQuestion: () => {},
   nextQuestion: () => {},
   prevQuestion: () => {},
@@ -34,7 +35,11 @@ const questionReducer = (state, action) => {
       const filteredQuestions = state.questions.filter(
         (que) => que._id !== action.payload
       );
-      return { ...state, questions: [...filteredQuestions] };
+      return {
+        ...state,
+        questions: [...filteredQuestions],
+        skipLimit: state.skipLimit + 1
+      };
     }
 
     case NEXT_PAGE: {
@@ -96,6 +101,7 @@ const QuestionProvider = (props) => {
     questions: state.questions,
     currentIndex: state.currentIndex,
     loading: state.loading,
+    skipLimit: state.skipLimit,
     addQuestion,
     nextQuestion,
     prevQuestion,

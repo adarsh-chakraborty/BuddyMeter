@@ -3,6 +3,8 @@ import Button from './Button';
 import Card from './Card';
 import Option from './Option';
 
+const MAX_SKIPS = 3;
+
 const Question = ({
   currentIndex,
   currentQuestion,
@@ -10,7 +12,8 @@ const Question = ({
   onNext,
   onSkip,
   onBack,
-  onRadioChange
+  onRadioChange,
+  skipLimit
 }) => {
   const isRadioSelected = (value) => selectedOption.answer === value;
 
@@ -46,11 +49,13 @@ const Question = ({
             disabled={selectedOption.answer ? false : true}
             onClick={onNext}
           />
-          <Button
-            btnText="Skip this Question"
-            classNames="min-w-max px-3 py-2"
-            onClick={onSkip.bind(null, currentQuestion._id)}
-          />
+          {skipLimit < MAX_SKIPS && (
+            <Button
+              btnText="Skip this Question"
+              classNames="min-w-max px-3 py-2"
+              onClick={onSkip.bind(null, currentQuestion._id)}
+            />
+          )}
           <Button
             btnText="Back"
             classNames="min-w-max px-5 py-2"
