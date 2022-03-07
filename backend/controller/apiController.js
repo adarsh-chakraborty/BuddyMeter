@@ -14,7 +14,9 @@ const getQuiz = async (req, res, next) => {
     return res.json({ error: 'Invalid quiz Id.' });
   }
 
-  const quiz = await Quiz.findById(quizId);
+  const quiz = await Quiz.findById(quizId).populate({
+    path: 'questions.queID'
+  });
 
   if (!quiz) {
     return res.status(404).json({ error: `Quiz doesn't exists.` });

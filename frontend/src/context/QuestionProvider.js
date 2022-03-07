@@ -86,12 +86,14 @@ const QuestionProvider = (props) => {
         const res = await fetch('/api/questions');
 
         if (!res.ok) {
-          const errorText = JSON.parse(await res.text());
+          if (res.status == 500) {
+            throw new Error('Internal server error');
+          }
+          const responseError = await res.json();
+          console.log(typeof responseError);
           stateActionDispatch({
             type: ERROR,
-            payload: errorText
-              ? errorText.error
-              : '❌ Could not connect to the server. Please try again later.'
+            payload: responseError.error ?? responseError
           });
           return;
         }
@@ -99,7 +101,6 @@ const QuestionProvider = (props) => {
         const questions = await res.json();
         stateActionDispatch({ type: FETCH_QUESTIONS, payload: questions });
       } catch (e) {
-        console.log(e);
         stateActionDispatch({
           type: ERROR,
           payload: e.message
