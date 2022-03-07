@@ -6,6 +6,8 @@ import HomeScreen from './screens/HomeScreen';
 import QuestionContext from './context/question-context';
 import { useContext } from 'react';
 import Finish from './screens/Finish';
+import Quiz from './screens/Quiz';
+import Error404 from './screens/Error404';
 
 function App() {
   const { currentIndex, userName } = useContext(QuestionContext);
@@ -26,6 +28,8 @@ function App() {
               currentIndex === 9 ? <Finish /> : <Navigate to="/create-quiz" />
             }
           />
+          <Route path="/quiz/:quiz" element={<Quiz />} />
+          <Route path="*" element={<Error404 />} />
         </Routes>
       </main>
     </div>

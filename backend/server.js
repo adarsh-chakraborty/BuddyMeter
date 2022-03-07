@@ -3,6 +3,7 @@ if (!process.env.HEROKU) {
 }
 const express = require('express');
 const mongoose = require('mongoose');
+const Quiz = require('./model/Quiz');
 const app = express();
 
 const apiRoutes = require('./routes/apiRoutes');
