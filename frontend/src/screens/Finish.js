@@ -4,32 +4,49 @@ import { useContext, useEffect, useState } from 'react';
 import QuestionContext from '../context/question-context';
 import Loader from '../components/Loader';
 import Container from '../components/Container';
+import Error from '../components/Error';
 
 const Finish = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [quizId, setQuizId] = useState('https://quizapp.com/');
   const ctx = useContext(QuestionContext);
 
   useEffect(() => {
     const postQuiz = async () => {
-      const response = await axios.post(
-        '/api/questions',
-        { userName: ctx.userName, questions: ctx.userQuestions },
-        {
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
-      setQuizId(response.data.quizId);
-      setLoading(false);
+      try {
+        const response = await axios.post(
+          '/api/questions',
+          { userName: ctx.userName, questions: ctx.userQuestions },
+          {
+            headers: { 'Content-Type': 'application/json' }
+          }
+        );
+        setQuizId(response.data.quizId);
+        setLoading(false);
+      } catch (error) {
+        setError(
+          error.response.data.error ?? 'Something went wrong, try again later.'
+        );
+        setLoading(false);
+      }
     };
 
     postQuiz();
-  }, []);
+  }, [ctx]);
 
   if (loading) {
     return (
       <Container classNames="mt-44 items-center">
         <Loader text="Creating your quiz..." />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container classNames="mt-44 items-center">
+        <Error text={error} />
       </Container>
     );
   }

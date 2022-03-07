@@ -9,11 +9,13 @@ const QuestionContext = React.createContext({
   loading: true,
   skipLimit: 0,
   userName: '',
+  error: null,
   addQuestion: () => {},
   nextQuestion: () => {},
   prevQuestion: () => {},
   skipQuestion: () => {},
-  setName: () => {}
+  setName: () => {},
+  setError: () => {}
 });
 
 export default QuestionContext;

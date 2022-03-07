@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import QuestionContext from '../context/question-context';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
+import Error from '../components/Error';
 
 const CreateQuiz = () => {
   const {
@@ -16,7 +17,8 @@ const CreateQuiz = () => {
     addQuestion,
     userQuestions,
     skipQuestion,
-    skipLimit
+    skipLimit,
+    error
   } = useContext(QuestionContext);
 
   const currentQuestion = questions[currentIndex];
@@ -41,6 +43,14 @@ const CreateQuiz = () => {
         <Loader text="Loading..." />
       </Container>
     );
+
+  if (error) {
+    return (
+      <Container classNames="mt-44 items-center">
+        <Error text={error} />
+      </Container>
+    );
+  }
 
   const onNextHandler = () => {
     addQuestion({ ...selectedOption, index: currentIndex });

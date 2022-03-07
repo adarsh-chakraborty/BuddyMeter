@@ -6,7 +6,8 @@ import {
   PREV_PAGE,
   FETCH_QUESTIONS,
   SKIP_QUESTION,
-  SET_NAME
+  SET_NAME,
+  ERROR
 } from './constants';
 
 const defaultState = {
@@ -16,17 +17,24 @@ const defaultState = {
   loading: true,
   skipLimit: 0,
   userName: '',
+  error: null,
   addQuestion: () => {},
   nextQuestion: () => {},
   prevQuestion: () => {},
   skipQuestion: () => {},
-  setName: () => {}
+  setName: () => {},
+  setError: () => {}
 };
 
 const questionReducer = (state, action) => {
   switch (action.type) {
     case FETCH_QUESTIONS: {
-      return { ...state, questions: [...action.payload], loading: false };
+      return {
+        ...state,
+        questions: [...action.payload],
+        loading: false,
+        error: null
+      };
     }
 
     case ADD_QUESTION: {
@@ -56,6 +64,10 @@ const questionReducer = (state, action) => {
     case SET_NAME: {
       return { ...state, userName: action.payload };
     }
+
+    case ERROR: {
+      return { ...state, error: action.payload, loading: false };
+    }
     default:
       return state;
   }
@@ -73,13 +85,25 @@ const QuestionProvider = (props) => {
       try {
         const res = await fetch('/api/questions');
 
-        if (res.ok) {
-          const questions = await res.json();
-
-          stateActionDispatch({ type: FETCH_QUESTIONS, payload: questions });
+        if (!res.ok) {
+          const errorText = JSON.parse(await res.text());
+          stateActionDispatch({
+            type: ERROR,
+            payload: errorText
+              ? errorText.error
+              : '❌ Could not connect to the server. Please try again later.'
+          });
+          return;
         }
+
+        const questions = await res.json();
+        stateActionDispatch({ type: FETCH_QUESTIONS, payload: questions });
       } catch (e) {
         console.log(e);
+        stateActionDispatch({
+          type: ERROR,
+          payload: e.message
+        });
       }
     };
 
@@ -106,6 +130,8 @@ const QuestionProvider = (props) => {
     stateActionDispatch({ type: SET_NAME, payload });
   };
 
+  const setError = () => {};
+
   const questionContext = {
     // add variables and function pointers here
     userQuestions: state.userQuestions,
@@ -114,11 +140,13 @@ const QuestionProvider = (props) => {
     loading: state.loading,
     skipLimit: state.skipLimit,
     userName: state.userName,
+    error: state.error,
     addQuestion,
     nextQuestion,
     prevQuestion,
     skipQuestion,
-    setName
+    setName,
+    setError
   };
 
   return (
