@@ -11,15 +11,17 @@ const getQuiz = async (req, res, next) => {
   const quizId = req.params.quizId;
 
   if (!mongoose.isValidObjectId(quizId)) {
-    return res.json({ error: 'Invalid quiz Id.' });
+    return res.status(400).json({ error: 'Error: Invalid Quiz ID.' });
   }
 
-  const quiz = await Quiz.findById(quizId).populate({
+  const quiz = await Quiz.findById(quizId, { 'questions.answer': 0 }).populate({
     path: 'questions.queID'
   });
 
   if (!quiz) {
-    return res.status(404).json({ error: `Quiz doesn't exists.` });
+    return res
+      .status(404)
+      .json({ error: `Could not find the quiz or it may have been deleted.` });
   }
 
   res.json(quiz);
@@ -44,15 +46,38 @@ const postQuiz = async (req, res, next) => {
         index: questions[key].index
       });
     }
-    console.log(userQuestions);
     const result = await Quiz.create({ userName, questions: userQuestions });
-    console.log(result);
     if (result)
       return res.status(201).json({ status: 201, quizId: result._id });
   } catch (e) {
-    console.log(e);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
 
-module.exports = { postQuiz, getQuestions, getQuiz };
+const postResult = async (req, res, next) => {
+  const data = req.body;
+  console.log(data);
+  const quiz = await Quiz.findById(data.quizId).populate({
+    path: 'questions.queID'
+  });
+
+  if (!quiz)
+    return res
+      .status(404)
+      .json({ error: `Quiz doesn't exists. It might've been deleted.` });
+
+  let score = 0;
+  const { userQuestions } = data;
+  for (let i = 0; i < 10; i++) {
+    if (
+      userQuestions[i]?.answer === quiz.questions[i]?.answer &&
+      userQuestions[i]?.index === quiz.questions[i]?.index &&
+      userQuestions[i]?.queId === quiz.questions[i].queID._id.toString()
+    ) {
+      score++;
+    }
+  }
+
+  res.json({ score });
+};
+module.exports = { postQuiz, getQuestions, getQuiz, postResult };

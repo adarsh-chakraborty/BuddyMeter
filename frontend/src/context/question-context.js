@@ -10,12 +10,14 @@ const QuestionContext = React.createContext({
   skipLimit: 0,
   userName: '',
   error: null,
+  playerName: '',
   addQuestion: () => {},
   nextQuestion: () => {},
   prevQuestion: () => {},
   skipQuestion: () => {},
   setName: () => {},
-  setError: () => {}
+  setError: () => {},
+  setPlayerName: () => {}
 });
 
 export default QuestionContext;

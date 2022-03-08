@@ -55,7 +55,7 @@ const Finish = () => {
     <Container classNames="items-center justify-center flex-col mt-44 gap-2">
       <div className="text-2xl">Your quiz has been created!</div>
       <div className="text-slate-900 text-sm border border-gray-400 px-4 py-3 rounded shadow-md">
-        {`https://quizapp.com/${quizId}`}
+        {`http://localhost:3000/quiz/${quizId}`}
       </div>
       <div className="text-sm text-gray-500">
         Copy the url and share with your friends.

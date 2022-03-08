@@ -7,7 +7,8 @@ import {
   FETCH_QUESTIONS,
   SKIP_QUESTION,
   SET_NAME,
-  ERROR
+  ERROR,
+  SET_PLAYER_NAME
 } from './constants';
 
 const defaultState = {
@@ -18,12 +19,14 @@ const defaultState = {
   skipLimit: 0,
   userName: '',
   error: null,
+  playerName: '',
   addQuestion: () => {},
   nextQuestion: () => {},
   prevQuestion: () => {},
   skipQuestion: () => {},
   setName: () => {},
-  setError: () => {}
+  setError: () => {},
+  setPlayerName: () => {}
 };
 
 const questionReducer = (state, action) => {
@@ -68,6 +71,10 @@ const questionReducer = (state, action) => {
     case ERROR: {
       return { ...state, error: action.payload, loading: false };
     }
+
+    case SET_PLAYER_NAME: {
+      return { ...state, playerName: action.payload };
+    }
     default:
       return state;
   }
@@ -86,11 +93,10 @@ const QuestionProvider = (props) => {
         const res = await fetch('/api/questions');
 
         if (!res.ok) {
-          if (res.status == 500) {
+          if (res.status === 500) {
             throw new Error('Internal server error');
           }
           const responseError = await res.json();
-          console.log(typeof responseError);
           stateActionDispatch({
             type: ERROR,
             payload: responseError.error ?? responseError
@@ -133,6 +139,10 @@ const QuestionProvider = (props) => {
 
   const setError = () => {};
 
+  const setPlayerName = (payload) => {
+    stateActionDispatch({ type: SET_PLAYER_NAME, payload });
+  };
+
   const questionContext = {
     // add variables and function pointers here
     userQuestions: state.userQuestions,
@@ -142,12 +152,14 @@ const QuestionProvider = (props) => {
     skipLimit: state.skipLimit,
     userName: state.userName,
     error: state.error,
+    playerName: state.playerName,
     addQuestion,
     nextQuestion,
     prevQuestion,
     skipQuestion,
     setName,
-    setError
+    setError,
+    setPlayerName
   };
 
   return (
