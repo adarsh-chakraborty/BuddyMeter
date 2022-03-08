@@ -3,7 +3,7 @@ if (!process.env.HEROKU) {
 }
 const express = require('express');
 const mongoose = require('mongoose');
-const Quiz = require('./model/Quiz');
+const path = require('path');
 const app = express();
 
 const apiRoutes = require('./routes/apiRoutes');
@@ -13,6 +13,12 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use('/api', apiRoutes);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(path.resolve(), '/frontend/build')));
+  app.use('*', (req, res, next) => {
+    res.sendFile(path.resolve('frontend', 'build', 'index.html'));
+  });
+}
 mongoose.connect(process.env.MONGODB_URI, (err) => {
   if (err) {
     console.log('Error connecting to mongodb!, ', err);
