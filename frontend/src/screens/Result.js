@@ -20,7 +20,7 @@ const getScoreResult = (score) => {
       return 'What?';
 
     default:
-      return `Dang! :( You can do better next time!`;
+      return `You can do better next time!`;
   }
 };
 const Result = ({ score = 0 }) => {
