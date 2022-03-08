@@ -87,19 +87,20 @@ const Quiz = () => {
     }
   }, [currentIndex, quizId, userQuestions, playerName]);
 
-  // Loading
-  if (loading || !quiz) {
-    return (
-      <Container classNames="mt-44 items-center">
-        <Loader text={loading} />
-      </Container>
-    );
-  }
   // Error
   if (error) {
     return (
       <Container classNames="mt-44 items-center">
         <Error text={error} />
+      </Container>
+    );
+  }
+
+  // Loading
+  if (loading || !quiz) {
+    return (
+      <Container classNames="mt-44 items-center">
+        <Loader text={loading} />
       </Container>
     );
   }
@@ -177,9 +178,11 @@ const Quiz = () => {
   }
 
   return (
-    // This screen will never render.
+    // This screen will never render or sometimes when it cannot load result in rare occasions.
     <Container>
-      <div className="text-3xl font-bold text-gray-800">Quiz has Ended!</div>
+      <div className="mt-44 text-3xl font-bold text-gray-800">
+        Quiz has Ended!
+      </div>
     </Container>
   );
 };
