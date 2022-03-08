@@ -7,11 +7,12 @@ import QuestionContext from './context/question-context';
 import { useContext } from 'react';
 import Finish from './screens/Finish';
 import Quiz from './screens/Quiz';
-import Error404 from './screens/Error404';
+import ErrorScreen from './screens/ErrorScreen';
 
 function App() {
   const { currentIndex, userName } = useContext(QuestionContext);
 
+  console.log(window.location.hostname);
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
@@ -29,7 +30,7 @@ function App() {
             }
           />
           <Route path="/quiz/:quiz" element={<Quiz />} />
-          <Route path="*" element={<Error404 />} />
+          <Route path="*" element={<ErrorScreen />} />
         </Routes>
       </main>
     </div>

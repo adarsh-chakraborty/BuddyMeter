@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Container from '../components/Container';
 
-const Error404 = () => {
+const ErrorScreen = () => {
   return (
     <Container classNames="flex-col items-center mt-44">
       <div className="text-4xl font-bold text-gray-700 border-b-2 border-slate-900 px-1">
@@ -21,4 +21,4 @@ const Error404 = () => {
   );
 };
 
-export default Error404;
+export default ErrorScreen;
