@@ -7,7 +7,7 @@ const getScoreResult = (score) => {
     case 5:
       return 'Good Going';
     case 6:
-      return 'You got it more than half!';
+      return 'GG! You got it more than half!';
     case 7:
       return 'GG! Well Played!';
     case 8:
@@ -20,7 +20,7 @@ const getScoreResult = (score) => {
       return 'What?';
 
     default:
-      return `You can do better next time!`;
+      return `Damn, better luck next time :/`;
   }
 };
 const Result = ({ score = 0 }) => {
