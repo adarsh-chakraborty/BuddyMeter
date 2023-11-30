@@ -7,7 +7,8 @@ import Container from '../components/Container';
 import Error from '../components/Error';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-const hostname = `https://${window.location.hostname}`;
+let PORT = 7000;
+
 
 const Finish = () => {
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,15 @@ const Finish = () => {
     postQuiz();
   }, [ctx]);
 
+
+  useEffect(() => {
+
+    fetch('/getPort').then(data => data.json()).then(data => {
+      console.log(data)
+      PORT = data.port
+    })
+  }, [])
+
   if (loading) {
     return (
       <Container classNames="mt-44 items-center">
@@ -58,6 +68,8 @@ const Finish = () => {
   const copyHandler = () => {
     setCopied(true);
   };
+
+  const hostname = `http://${window.location.hostname}:${PORT}`;
 
   return (
     <Container classNames="items-center justify-center flex-col mt-44 gap-2">

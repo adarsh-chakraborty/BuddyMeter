@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "A Simple Quiz App to test your buddies!",
   "main": "server.js",
+  "proxy": "http://localhost:7000",
   "scripts": {
-    "server": "nodemon backend/server.js",
-    "reset": "nodemon backend/reset.js",
+    "server": "node backend/server.js",
+    "reset": "node backend/reset.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node backend/server.js",

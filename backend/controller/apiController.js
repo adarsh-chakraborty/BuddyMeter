@@ -3,6 +3,7 @@ const Quiz = require('../model/Quiz');
 const mongoose = require('mongoose');
 
 const getQuestions = async (req, res, next) => {
+  console.log("Getting questions")
   const questions = await Question.find({});
   res.json(questions);
 };
